@@ -7,6 +7,7 @@ import { CircularProgress, Container, LinearProgress } from '@mui/material'
 import { ButtonAppBar } from 'common/comonents/ButtonAppBar'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ErrorSnackbar } from 'common/comonents/ErrorSnackbar'
+import { Login } from 'features/auth/Login/Login'
 export const App = () => {
   const status: RequestStatusType = useAppSelector(selectAppStatus)
   const isInitialized = useAppSelector<boolean>(selectIsInitialized)
@@ -37,7 +38,7 @@ export const App = () => {
       <Container fixed>
         <Routes>
           {/*<Route path='/' element={<TodolistsList />} />*/}
-          {/*<Route path='login' element={<Login />} />*/}
+          <Route path='login' element={<Login />} />
           <Route
             path='/404'
             element={<h1 style={{ textAlign: 'center' }}>404: PAGE NOT FOUND</h1>}
