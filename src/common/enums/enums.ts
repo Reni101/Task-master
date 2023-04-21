@@ -13,7 +13,7 @@ export enum TaskPriorities {
     Later = 4,
 }
 
-export const Enums = {
+export const ResultCode = {
     Success: 0,
     Error: 1,
     Captcha: 10,
