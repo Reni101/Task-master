@@ -17,20 +17,20 @@ export type TodolistDomainType = TodolistType & {
 
 const initialState: TodolistDomainType[] = []
 
-const getTodoList = createAppAsyncThunk<
-  { todoLists: TodolistType[] },
-  { todoLists: TodolistType[] }
->('todoListsReducer/getTodoList', async (_, thunkAPI) => {
-  const { dispatch } = thunkAPI
-  return thunkTryCatch(thunkAPI, async () => {
-    const res = await todolistAPI.getTodoLists()
+const getTodoList = createAppAsyncThunk<{ todoLists: TodolistType[] }>(
+  'todoListsReducer/getTodoList',
+  async (_, thunkAPI) => {
+    const { dispatch } = thunkAPI
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await todolistAPI.getTodoLists()
 
-    res.data.forEach((tl) => {
-      dispatch(tasksThunks.getTasks(tl.id))
+      res.data.forEach((tl) => {
+        dispatch(tasksThunks.getTasks(tl.id))
+      })
+      return { todoLists: res.data }
     })
-    return { todoLists: res.data }
-  })
-})
+  }
+)
 
 const addTodoList = createAppAsyncThunk<{ newTodolist: TodolistType }, string>(
   'todoListsReducer/addTodoList',
@@ -142,4 +142,4 @@ const slice = createSlice({
 
 export const todoListsReducer = slice.reducer
 export const todolistActions = slice.actions
-export const todolistThunk = { getTodoList, addTodoList, removeTodoList, editTitleTodoList }
+export const todolistThunks = { getTodoList, addTodoList, removeTodoList, editTitleTodoList }

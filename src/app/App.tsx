@@ -8,6 +8,7 @@ import { ButtonAppBar } from 'common/comonents/ButtonAppBar'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ErrorSnackbar } from 'common/comonents/ErrorSnackbar'
 import { Login } from 'features/auth/Login/Login'
+import { TodoLists } from 'features/todolist/Todolists'
 export const App = () => {
   const status: RequestStatusType = useAppSelector(selectAppStatus)
   const isInitialized = useAppSelector<boolean>(selectIsInitialized)
@@ -37,7 +38,7 @@ export const App = () => {
       {status === 'loading' && <LinearProgress color='secondary' />}
       <Container fixed>
         <Routes>
-          {/*<Route path='/' element={<TodolistsList />} />*/}
+          <Route path='/' element={<TodoLists />} />
           <Route path='login' element={<Login />} />
           <Route
             path='/404'
