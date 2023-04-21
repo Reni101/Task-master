@@ -3,21 +3,26 @@ import { instance, ResponseType } from './baseURL'
 
 export const taskApi = {
   getTasks(todolistID: string) {
-    return instance.get<GetTaskResponseType>(`todo-lists/${todolistID}/tasks`)
+    return instance
+      .get<GetTaskResponseType>(`todo-lists/${todolistID}/tasks`)
+      .then((res) => res.data)
   },
   addTaskForTodolist(todolistID: string, titleTask: string) {
-    return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/tasks`, {
-      title: titleTask,
-    })
+    return instance
+      .post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/tasks`, {
+        title: titleTask,
+      })
+      .then((res) => res.data)
   },
   deleteTask(todolistID: string, taskId: string) {
-    return instance.delete<ResponseType>(`/todo-lists/${todolistID}/tasks/${taskId}`)
+    return instance
+      .delete<ResponseType>(`/todo-lists/${todolistID}/tasks/${taskId}`)
+      .then((res) => res.data)
   },
   updateTask(todolistID: string, taskId: string, model: modelType) {
-    return instance.put<ResponseType<{ item: TaskType }>>(
-      `/todo-lists/${todolistID}/tasks/${taskId}`,
-      model
-    )
+    return instance
+      .put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistID}/tasks/${taskId}`, model)
+      .then((res) => res.data)
   },
 }
 
