@@ -1,16 +1,20 @@
-import React, {FC, memo} from 'react'
-import {TaskType} from 'common/api/task-api'
-import {FilterValuesType, todolistActions, todolistThunks,} from 'features/todolist/todolists-reducer'
-import {EditableSpan} from 'common/comonents/EditableSpan'
+import React, { FC, memo } from 'react'
+import { TaskType } from 'common/api/task-api'
+import {
+  FilterValuesType,
+  todolistActions,
+  todolistThunks,
+} from 'features/todolist/todolists-reducer'
+import { EditableSpan } from 'common/comonents/EditableSpan'
 import IconButton from '@mui/material/IconButton'
-import {Delete} from '@mui/icons-material'
-import {AddItemForm} from 'common/comonents/AddItemForm'
+import { Delete } from '@mui/icons-material'
+import { AddItemForm } from 'common/comonents/AddItemForm'
 import Button from '@mui/material/Button'
-import {useAppDispatch} from 'common/hooks/useDispatch'
-import {RequestStatusType} from 'app/app-reducer'
-import {tasksThunks} from 'features/todolist/Todolist/Task/tasks-reducer'
-import {Task} from 'features/todolist/Todolist/Task/Task'
-import {TaskStatuses} from 'common/enums/enums'
+import { RequestStatusType } from 'app/app-reducer'
+import { tasksThunks } from 'features/todolist/Todolist/Task/tasks-reducer'
+import { Task } from 'features/todolist/Todolist/Task/Task'
+import { TaskStatuses } from 'common/enums/enums'
+import { useActions } from 'common/hooks/useActions'
 
 type TodoListPropsType = {
   todolistId: string
@@ -21,7 +25,12 @@ type TodoListPropsType = {
 }
 export const Todolist: FC<TodoListPropsType> = memo(
   ({ todolistId, title, entityStatus, filter, tasks }) => {
-    const dispatch = useAppDispatch()
+    const { editTitleTodoList, removeTodoList, addTask, changeFilter } = useActions({
+      ...todolistThunks,
+      ...todolistActions,
+      ...tasksThunks,
+    })
+
     let tasksForRender = tasks
     if (filter === 'active') {
       tasksForRender = tasks.filter((t) => t.status === TaskStatuses.New)
@@ -31,19 +40,19 @@ export const Todolist: FC<TodoListPropsType> = memo(
     }
 
     const editTodolistHandler = (newTitle: string) => {
-      dispatch(todolistThunks.editTitleTodoList({ title: newTitle, todolistId }))
+      editTitleTodoList({ title: newTitle, todolistId })
     }
 
     const removeTodoListHandler = () => {
-      dispatch(todolistThunks.removeTodoList(todolistId))
+      removeTodoList(todolistId)
     }
 
-    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-      dispatch(todolistActions.changeFilter({ id: todolistId, filter }))
+    const changeFilterHandler = (todolistId: string, filter: FilterValuesType) => {
+      changeFilter({ id: todolistId, filter })
     }
 
     const addTaskHandler = (title: string) => {
-      dispatch(tasksThunks.addTask({ todolistId, title }))
+      addTask({ todolistId, title })
     }
 
     const buttonClassALL = filter === 'all' ? 'outlined' : 'contained'
@@ -72,15 +81,18 @@ export const Todolist: FC<TodoListPropsType> = memo(
         <div>{tasksMap}</div>
 
         <div>
-          <Button variant={buttonClassALL} onClick={() => changeFilter(todolistId, 'all')}>
+          <Button variant={buttonClassALL} onClick={() => changeFilterHandler(todolistId, 'all')}>
             All
           </Button>
-          <Button variant={buttonClassActive} onClick={() => changeFilter(todolistId, 'active')}>
+          <Button
+            variant={buttonClassActive}
+            onClick={() => changeFilterHandler(todolistId, 'active')}
+          >
             Active
           </Button>
           <Button
             variant={buttonClassCompleted}
-            onClick={() => changeFilter(todolistId, 'completed')}
+            onClick={() => changeFilterHandler(todolistId, 'completed')}
           >
             Completed
           </Button>

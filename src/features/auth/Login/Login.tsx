@@ -1,13 +1,14 @@
 import FormControl from '@mui/material/FormControl/FormControl'
 import Grid from '@mui/material/Grid/Grid'
-import { useAppDispatch, useAppSelector } from 'common/hooks/useDispatch'
+import {useAppSelector} from 'common/hooks/useApp'
 import React from 'react'
-import { selectIsLoggedIn } from 'features/auth/auth-selectors'
-import { useFormik } from 'formik'
+import {selectIsLoggedIn} from 'features/auth/auth-selectors'
+import {useFormik} from 'formik'
 import {authThunks} from 'features/auth/auth.reducer'
 import {Navigate} from 'react-router-dom'
 import {Checkbox, FormControlLabel, FormGroup, FormLabel, TextField} from '@mui/material'
 import Button from '@mui/material/Button'
+import {useActions} from 'common/hooks/useActions'
 
 type FormikErrorType = {
   email?: string
@@ -20,7 +21,7 @@ enum ValidateLength {
 }
 
 export const Login = () => {
-  const dispatch = useAppDispatch()
+  const { login } = useActions(authThunks)
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
@@ -46,7 +47,7 @@ export const Login = () => {
       return errors
     },
     onSubmit: async (values) => {
-      await dispatch(authThunks.login(values))
+      login(values)
     },
   })
 
@@ -76,11 +77,7 @@ export const Login = () => {
               <p>Password: free</p>
             </FormLabel>
             <FormGroup>
-              <TextField
-                label='Email'
-                margin='normal'
-                {...formik.getFieldProps('email')}
-              />
+              <TextField label='Email' margin='normal' {...formik.getFieldProps('email')} />
               {formik.touched.email && formik.errors.email && (
                 <div style={{ color: 'red' }}>{formik.errors.email}</div>
               )}

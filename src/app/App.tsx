@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
-import { useAppDispatch, useAppSelector } from 'common/hooks/useDispatch'
-import { selectAppStatus, selectIsInitialized } from 'app/app-selectors'
-import { appThunks, RequestStatusType } from 'app/app-reducer'
-import { CircularProgress, Container, LinearProgress } from '@mui/material'
-import { ButtonAppBar } from 'common/comonents/ButtonAppBar'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { ErrorSnackbar } from 'common/comonents/ErrorSnackbar'
-import { Login } from 'features/auth/Login/Login'
-import { TodoLists } from 'features/todolist/Todolists'
+import {useAppSelector} from 'common/hooks/useApp'
+import {selectAppStatus, selectIsInitialized} from 'app/app-selectors'
+import {appThunks, RequestStatusType} from 'app/app-reducer'
+import {CircularProgress, Container, LinearProgress} from '@mui/material'
+import {ButtonAppBar} from 'common/comonents/ButtonAppBar'
+import {Navigate, Route, Routes} from 'react-router-dom'
+import {ErrorSnackbar} from 'common/comonents/ErrorSnackbar'
+import {Login} from 'features/auth/Login/Login'
+import {TodoLists} from 'features/todolist/Todolists'
+import {useActions} from 'common/hooks/useActions'
+
 export const App = () => {
   const status: RequestStatusType = useAppSelector(selectAppStatus)
   const isInitialized = useAppSelector<boolean>(selectIsInitialized)
-  const dispatch = useAppDispatch()
+  const { initializeApp } = useActions(appThunks)
 
   useEffect(() => {
-    dispatch(appThunks.initializeApp())
+    initializeApp()
   }, [])
 
   if (!isInitialized) {

@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import { useCallback } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import { authThunks } from 'features/auth/auth.reducer'
-import { useAppDispatch, useAppSelector } from 'common/hooks/useDispatch'
+import { useAppDispatch, useAppSelector } from 'common/hooks/useApp'
 import { selectIsLoggedIn } from 'features/auth/auth-selectors'
 
 export const ButtonAppBar = () => {
