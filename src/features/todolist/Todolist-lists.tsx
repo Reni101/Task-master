@@ -12,7 +12,7 @@ import {selectTasks} from 'features/todolist/Todolist/Task/tasks-selectors'
 import {TasksType} from 'features/todolist/Todolist/Task/tasks-reducer'
 import {useActions} from 'common/hooks/useActions'
 
-export const TodoLists = () => {
+export const TodolistLists = () => {
   const { addTodoList, getTodoList } = useActions(todolistThunks)
   const todoLists: Array<TodolistDomainType> = useAppSelector(selectTodolists)
   const tasks: TasksType = useAppSelector(selectTasks)

@@ -8,7 +8,7 @@ import {ButtonAppBar} from 'common/comonents/ButtonAppBar'
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {ErrorSnackbar} from 'common/comonents/ErrorSnackbar'
 import {Login} from 'features/auth/login/Login'
-import {TodoLists} from 'features/todolist/Todolists'
+import {TodolistLists} from 'features/todolist/Todolist-lists'
 import {useActions} from 'common/hooks/useActions'
 
 export const App = () => {
@@ -40,7 +40,7 @@ export const App = () => {
       {status === 'loading' && <LinearProgress color='secondary' />}
       <Container fixed>
         <Routes>
-          <Route path='/' element={<TodoLists />} />
+          <Route path='/' element={<TodolistLists />} />
           <Route path='login' element={<Login />} />
           <Route
             path='/404'
