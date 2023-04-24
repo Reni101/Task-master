@@ -9,12 +9,7 @@ import {Navigate} from 'react-router-dom'
 import {Checkbox, FormControlLabel, FormGroup, FormLabel, TextField} from '@mui/material'
 import Button from '@mui/material/Button'
 import {useActions} from 'common/hooks/useActions'
-
-type FormikErrorType = {
-  email?: string
-  password?: string
-  rememberMe?: boolean
-}
+import {LoginParamsType} from 'common/api/auth-api'
 
 enum ValidateLength {
   minLengthPassword = 3,
@@ -31,8 +26,8 @@ export const Login = () => {
       password: '',
       rememberMe: false,
     },
-    validate: (values: FormikErrorType) => {
-      const errors: FormikErrorType = {}
+    validate: (values: Partial<LoginParamsType>) => {
+      const errors: Partial<LoginParamsType> = {}
       if (!values.email) {
         errors.email = 'Required'
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
