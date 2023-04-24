@@ -1,4 +1,6 @@
 import {
+  FilterValuesType,
+  todolistActions,
   TodolistDomainType,
   todoListsReducer,
   todolistThunks,
@@ -62,4 +64,15 @@ test('correct todolist should change its name', () => {
 
   expect(endState[0].title).toBe(newTodolistTitle)
   expect(endState[1].title).toBe('What to buy')
+})
+
+test('correct filter of todolist should be changed', () => {
+  let newFilter: FilterValuesType = 'completed'
+
+  const action = todolistActions.changeFilter({ filter: newFilter, id: todolistId2 })
+
+  const endState = todoListsReducer(startState, action)
+
+  expect(endState[0].filter).toBe('all')
+  expect(endState[1].filter).toBe(newFilter)
 })
