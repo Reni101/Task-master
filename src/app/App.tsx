@@ -7,7 +7,7 @@ import {CircularProgress, Container, LinearProgress} from '@mui/material'
 import {ButtonAppBar} from 'common/comonents/ButtonAppBar'
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {ErrorSnackbar} from 'common/comonents/ErrorSnackbar'
-import {Login} from 'features/auth/Login/Login'
+import {Login} from 'features/auth/login/Login'
 import {TodoLists} from 'features/todolist/Todolists'
 import {useActions} from 'common/hooks/useActions'
 

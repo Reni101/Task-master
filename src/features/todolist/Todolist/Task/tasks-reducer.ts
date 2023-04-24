@@ -1,7 +1,7 @@
 
 import { modelType, taskApi, TaskType } from 'common/api/task-api'
 import { clearState } from 'common/actions/common-actions'
-import { todolistThunks } from 'features/todolist/todolists-reducer'
+import { todolistThunks } from 'features/todolist/Todolist/todolists-reducer'
 import { createAppAsyncThunk } from 'common/utils/create-app-async-thunk'
 import { thunkTryCatch } from 'common/utils/thunk-try-catch'
 import { ResultCode } from 'common/enums/enums'

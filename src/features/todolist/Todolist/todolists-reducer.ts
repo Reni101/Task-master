@@ -49,7 +49,7 @@ const addTodoList = createAppAsyncThunk<{ newTodolist: TodolistType }, string>(
   }
 )
 
-const removeTodoList = createAppAsyncThunk<any, string>(
+const removeTodoList = createAppAsyncThunk<{ id: string }, string>(
   'todoListsReducer/removeTodoList',
   async (todolistId, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI

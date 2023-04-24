@@ -1,15 +1,15 @@
 import FormControl from '@mui/material/FormControl/FormControl'
 import Grid from '@mui/material/Grid/Grid'
-import {useAppSelector} from 'common/hooks/useApp'
+import { useAppSelector } from 'common/hooks/useApp'
 import React from 'react'
-import {selectIsLoggedIn} from 'features/auth/auth-selectors'
-import {useFormik} from 'formik'
-import {authThunks} from 'features/auth/auth.reducer'
-import {Navigate} from 'react-router-dom'
-import {Checkbox, FormControlLabel, FormGroup, FormLabel, TextField} from '@mui/material'
+import { selectIsLoggedIn } from 'features/auth/auth-selectors'
+import { useFormik } from 'formik'
+import { authThunks } from 'features/auth/auth.reducer'
+import { Navigate } from 'react-router-dom'
+import { Checkbox, FormControlLabel, FormGroup, FormLabel, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
-import {useActions} from 'common/hooks/useActions'
-import {LoginParamsType} from 'common/api/auth-api'
+import { useActions } from 'common/hooks/useActions'
+import { LoginParamsType } from 'common/api/auth-api'
 
 enum ValidateLength {
   minLengthPassword = 3,
@@ -26,7 +26,7 @@ export const Login = () => {
       password: '',
       rememberMe: false,
     },
-    validate: (values: Partial<LoginParamsType>) => {
+    validate: (values: LoginParamsType) => {
       const errors: Partial<LoginParamsType> = {}
       if (!values.email) {
         errors.email = 'Required'

@@ -4,7 +4,7 @@ import {
   FilterValuesType,
   todolistActions,
   todolistThunks,
-} from 'features/todolist/todolists-reducer'
+} from 'features/todolist/Todolist/todolists-reducer'
 import { EditableSpan } from 'common/comonents/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import { Delete } from '@mui/icons-material'
