@@ -1,20 +1,16 @@
 import React, { FC, memo } from 'react'
 import { TaskType } from 'common/api/task-api'
-import {
-  FilterValuesType,
-  todolistActions,
-  todolistThunks,
-} from 'features/todolist/Todolist/todolists-reducer'
+import { FilterValuesType, todolistThunks } from 'features/todolist/Todolist/todolists-reducer'
 import { EditableSpan } from 'common/comonents/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import { Delete } from '@mui/icons-material'
 import { AddItemForm } from 'common/comonents/AddItemForm'
-import Button from '@mui/material/Button'
 import { RequestStatusType } from 'app/app-reducer'
 import { tasksThunks } from 'features/todolist/Todolist/Task/tasks-reducer'
 import { Task } from 'features/todolist/Todolist/Task/Task'
 import { TaskStatuses } from 'common/enums/enums'
 import { useActions } from 'common/hooks/useActions'
+import { FilterTasksButtons } from 'features/todolist/Todolist/FilterTasksButtons'
 
 type TodoListPropsType = {
   todolistId: string
@@ -25,9 +21,8 @@ type TodoListPropsType = {
 }
 export const Todolist: FC<TodoListPropsType> = memo(
   ({ todolistId, title, entityStatus, filter, tasks }) => {
-    const { editTitleTodoList, removeTodoList, addTask, changeFilter } = useActions({
+    const { editTitleTodoList, removeTodoList, addTask } = useActions({
       ...todolistThunks,
-      ...todolistActions,
       ...tasksThunks,
     })
 
@@ -47,26 +42,18 @@ export const Todolist: FC<TodoListPropsType> = memo(
       removeTodoList(todolistId)
     }
 
-    const changeFilterHandler = (todolistId: string, filter: FilterValuesType) => {
-      changeFilter({ id: todolistId, filter })
-    }
-
     const addTaskHandler = (title: string) => {
       addTask({ todolistId, title })
     }
 
-    const buttonClassALL = filter === 'all' ? 'outlined' : 'contained'
-    const buttonClassActive = filter === 'active' ? 'outlined' : 'contained'
-    const buttonClassCompleted = filter === 'completed' ? 'outlined' : 'contained'
-
     const tasksMap = tasks.length
-      ? tasksForRender.map((t) => {
-          return <Task key={t.id} task={t} />
+      ? tasksForRender.map((task) => {
+          return <Task key={task.id} task={task} />
         })
       : null
 
     return (
-      <div>
+      <>
         <h3>
           <EditableSpan title={title} callBack={editTodolistHandler} />
           <IconButton
@@ -77,27 +64,13 @@ export const Todolist: FC<TodoListPropsType> = memo(
             <Delete />
           </IconButton>
         </h3>
-        <AddItemForm callBack={addTaskHandler} disabled={entityStatus === 'loading'} />
-        <div>{tasksMap}</div>
 
-        <div>
-          <Button variant={buttonClassALL} onClick={() => changeFilterHandler(todolistId, 'all')}>
-            All
-          </Button>
-          <Button
-            variant={buttonClassActive}
-            onClick={() => changeFilterHandler(todolistId, 'active')}
-          >
-            Active
-          </Button>
-          <Button
-            variant={buttonClassCompleted}
-            onClick={() => changeFilterHandler(todolistId, 'completed')}
-          >
-            Completed
-          </Button>
-        </div>
-      </div>
+        <AddItemForm callBack={addTaskHandler} disabled={entityStatus === 'loading'} />
+
+        {tasksMap}
+
+        <FilterTasksButtons filter={filter} todolistId={todolistId} />
+      </>
     )
   }
 )

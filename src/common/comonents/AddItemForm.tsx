@@ -1,12 +1,12 @@
-import React, { ChangeEvent, KeyboardEvent, memo, useState } from 'react'
+import React, { ChangeEvent, FC, KeyboardEvent, memo, useState } from 'react'
 import { Button, TextField } from '@mui/material'
 
-type AddItemFormPropsType = {
+type Props = {
   callBack: (title: string) => void
   disabled?: boolean
 }
 
-export const AddItemForm = memo((props: AddItemFormPropsType) => {
+export const AddItemForm: FC<Props> = memo(({ callBack, disabled }) => {
   const [title, setTitle] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
 
@@ -22,7 +22,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
   const TaskTestHandler = () => {
     let taskTitle: string = title.trim()
     if (taskTitle !== '') {
-      props.callBack(taskTitle)
+      callBack(taskTitle)
     } else {
       setError(true)
     }
@@ -53,7 +53,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
           minHeight: '38px',
           marginLeft: '5px',
         }}
-        disabled={props.disabled}
+        disabled={disabled}
       >
         +
       </Button>
