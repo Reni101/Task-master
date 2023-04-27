@@ -10,9 +10,10 @@ import { Checkbox, FormControlLabel, FormGroup, FormLabel, TextField } from '@mu
 import Button from '@mui/material/Button'
 import { useActions } from 'common/hooks/useActions'
 import { LoginParamsType } from 'common/api/auth-api'
+import { RejectValueType } from 'common/utils/create-app-async-thunk'
 
 enum ValidateLength {
-  minLengthPassword = 3,
+  minLengthPassword = 3
 }
 
 export const Login = () => {
@@ -24,7 +25,7 @@ export const Login = () => {
     initialValues: {
       email: '',
       password: '',
-      rememberMe: false,
+      rememberMe: false
     },
     validate: (values: LoginParamsType) => {
       const errors: Partial<LoginParamsType> = {}
@@ -41,9 +42,18 @@ export const Login = () => {
       }
       return errors
     },
-    onSubmit: async (values) => {
+    onSubmit: (values, formikHelpers) => {
       login(values)
-    },
+        .unwrap()
+        .catch((reason: RejectValueType) => {
+          const { fieldsErrors } = reason.data
+          if (fieldsErrors) {
+            fieldsErrors.forEach(fieldError => {
+              formikHelpers.setFieldError(fieldError.field, fieldError.error)
+            })
+          }
+        })
+    }
   })
 
   if (isLoggedIn) {

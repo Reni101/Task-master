@@ -22,14 +22,14 @@ export const TodolistLists = () => {
 	const isLoggedIn = useAppSelector(selectIsLoggedIn)
 
 	const addTodoListCallback = useCallback((title: string) => {
-		addTodoList(title)
+		return addTodoList(title).unwrap()
 	}, [])
 
 	useEffect(() => {
 		if (!isLoggedIn) {
 			return
 		}
-		getTodoList()
+		getTodoList({})
 	}, [])
 
 	if (!isLoggedIn) {

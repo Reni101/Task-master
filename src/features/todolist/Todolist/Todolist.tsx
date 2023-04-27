@@ -10,7 +10,7 @@ import { tasksThunks } from 'features/todolist/Todolist/Task/tasks-reducer'
 import { Task } from 'features/todolist/Todolist/Task/Task'
 import { TaskStatuses } from 'common/enums/enums'
 import { useActions } from 'common/hooks/useActions'
-import { FilterTasksButtons } from 'features/todolist/Todolist/FilterTasksButtons'
+import { FilterTasksButtons } from 'features/todolist/Todolist/filterTasksButtons/FilterTasksButtons'
 
 type TodoListPropsType = {
   todolistId: string
@@ -43,7 +43,7 @@ export const Todolist: FC<TodoListPropsType> = memo(
     }
 
     const addTaskHandler = (title: string) => {
-      addTask({ todolistId, title })
+     return addTask({ todolistId, title }).unwrap()
     }
 
     const tasksMap = tasks.length

@@ -17,7 +17,7 @@ export const App = () => {
   const { initializeApp } = useActions(appThunks)
 
   useEffect(() => {
-    initializeApp()
+    initializeApp({})
   }, [])
 
   if (!isInitialized) {

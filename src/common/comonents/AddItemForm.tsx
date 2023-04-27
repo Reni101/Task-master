@@ -1,57 +1,65 @@
 import React, { ChangeEvent, FC, KeyboardEvent, memo, useState } from 'react'
 import { Button, TextField } from '@mui/material'
+import { RejectValueType } from 'common/utils/create-app-async-thunk'
 
 type Props = {
-  callBack: (title: string) => void
+  callBack: (title: string) => any
   disabled?: boolean
 }
 
 export const AddItemForm: FC<Props> = memo(({ callBack, disabled }) => {
   const [title, setTitle] = useState<string>('')
-  const [error, setError] = useState<boolean>(false)
+  const [error, setError] = useState<string>('')
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value)
     if (error && e.currentTarget.value.trim() !== null) {
-      setError(false)
+      setError('')
     }
   }
   const pressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    e.key === 'Enter' && TaskTestHandler() // &&- И при нажати и тру и она запускаеть функцию
+    e.key === 'Enter' && taskTestHandler()
   }
-  const TaskTestHandler = () => {
-    let taskTitle: string = title.trim()
-    if (taskTitle !== '') {
-      callBack(taskTitle)
+  const taskTestHandler = () => {
+    if (title.trim() !== '') {
+      callBack(title)
+        .then(() => {
+          setTitle('')
+        })
+        .catch((err: RejectValueType) => {
+          if (err.data) {
+            const messages = err.data.messages
+            setError(messages.length ? messages[0] : 'Some error occurred')
+          }
+        })
     } else {
-      setError(true)
+      setError('Title is required')
     }
-
-    setTitle('')
   }
 
   return (
     <div>
       <TextField
+        error={!!error}
         id='outlined-basic'
         label={error ? 'Title is required!' : 'Введите текст'}
         variant='outlined'
         value={title}
         onChange={onChangeHandler}
         onKeyDown={pressEnter}
-        error={error}
         size='small'
+        helperText={error}
       />
 
       <Button
         variant='contained'
-        onClick={TaskTestHandler}
+        onClick={taskTestHandler}
         style={{
           maxWidth: '38px',
           maxHeight: '38px',
           minWidth: '38px',
           minHeight: '38px',
-          marginLeft: '5px',
+          marginLeft: '5px'
         }}
         disabled={disabled}
       >
